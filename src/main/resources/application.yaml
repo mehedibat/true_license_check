@@ -1,0 +1,32 @@
+api.version: 1.2.0
+
+server:
+  port: 8891
+
+
+spring:
+  profiles:
+    active: '@active.profile@'
+  application:
+    name: cms-admin
+  main:
+    allow-bean-definition-overriding: true
+
+  output:
+    ansi:
+      enabled: always
+
+  security:
+    oauth2:
+      resource-server:
+        jwt:
+          issuer-uri: https://idpv2.oss.net.bd/realms/q-cloud
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+
+
