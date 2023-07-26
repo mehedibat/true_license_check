@@ -1,7 +1,5 @@
 package com.business.automation.MicroService1.security;
 
-
-import ch.qos.logback.core.joran.spi.NoAutoStartUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -19,6 +17,7 @@ public class UserIdentityContextFilter implements WebFilter {
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 
         JwtAuthenticationToken authentication = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        // Keycloak login user validation with license
         if (authentication == null) {
             return chain.filter(exchange);
         }

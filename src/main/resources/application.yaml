@@ -22,6 +22,8 @@ spring:
         jwt:
           issuer-uri: https://idpv2.oss.net.bd/realms/q-cloud
 
+license.path: ${user.home}/.${spring.application.name}
+
 logging:
   level:
     org:

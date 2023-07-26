@@ -1,0 +1,17 @@
+api.version: 1.2.0
+
+
+spring:
+  rabbitmq:
+    host: 45.114.84.185
+    port: 30672
+    username: guest
+    password: guest
+    virtual-host: /true-license
+    requested-heartbeat: 30
+
+file:
+  base:
+    dir: /tmp/${spring.application.name}/resources/
+
+
