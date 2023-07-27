@@ -8,9 +8,17 @@ spring:
   profiles:
     active: '@active.profile@'
   application:
-    name: cms-admin
+    name: microservice1
   main:
     allow-bean-definition-overriding: true
+
+  rabbitmq:
+    host: 45.114.84.185
+    port: 30672
+    username: guest
+    password: guest
+    virtual-host: /true-license
+    requested-heartbeat: 30
 
   output:
     ansi:
@@ -26,9 +34,14 @@ license.path: ${user.home}/.${spring.application.name}
 
 logging:
   level:
+    com:
+      business: INFO
     org:
       springframework:
-        security: DEBUG
+        security: INFO
 
+license:
+  server:
+    url: http://192.168.30.159:8899/download-license
 
 

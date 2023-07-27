@@ -2,6 +2,7 @@ package com.business.automation.MicroService1.controller;
 
 import com.business.automation.MicroService1.truelicense.LicenseManager;
 import com.business.automation.MicroService1.truelicense.ReadLicenceController;
+import com.business.automation.MicroService1.utils.Constant;
 import com.business.automation.MicroService1.web.WebService;
 import com.fasterxml.jackson.databind.JsonNode;
 import global.namespace.truelicense.api.ConsumerLicenseManager;
@@ -28,8 +29,9 @@ public class LicenseService {
 
     @Value("${license.path}")
     String licensePath;
-    String trueLicenseFilaName = "license.lic";
-    String licenseDownloadUrl = "http://localhost:8899/download-license";
+
+    @Value("${license.server.url}")
+    String licenseDownloadUrl;
 
     private static ConsumerLicenseManager manager() { return LicenseManager.get(); }
 
@@ -49,11 +51,12 @@ public class LicenseService {
         } catch (Exception e) {
             log.error("Exception downloadLicenseAndInstall => " + e);
         }
-        log.info("True License Install");
+
+        log.info("True License Not Install");
+        log.info("Get True License from server");
         ///       Get lic file from True License Api
         JsonNode jsonResponse = webService.getJsonResponse(licenseDownloadUrl);
         byte[] fileBytes = jsonResponse.get("body").binaryValue();;
-        System.out.println(fileBytes);
 
         Path folderPath = Paths.get(licensePath);
         if (!Files.exists(folderPath)) {
@@ -61,20 +64,21 @@ public class LicenseService {
         }
 
         // Save the file to the folder
-        Path filePath = folderPath.resolve(trueLicenseFilaName);
+        Path filePath = folderPath.resolve(Constant.TURE_LICENSE_FILE_NAME);
         try (FileOutputStream fos = new FileOutputStream(filePath.toFile())) {
             fos.write(fileBytes);
         }
 
         // Install license
-        manager().install(file(licensePath + "/" + trueLicenseFilaName));
-
+        manager().install(file(licensePath + "/" + Constant.TURE_LICENSE_FILE_NAME));
+        log.info("True License Installed");
 
     }
 
     public void downloadNewLicenseAndInstall() throws IOException, LicenseManagementException {
 
-        log.info("Install");
+        log.info("New file uploaded notified  by rabbitMQ");
+        log.info("New uploaded True License Install ");
         ///       Get lic file from True License Api
         JsonNode jsonResponse = webService.getJsonResponse(licenseDownloadUrl);
         byte[] fileBytes = jsonResponse.get("body").binaryValue();;
@@ -86,13 +90,13 @@ public class LicenseService {
         }
 
         // Save the file to the folder
-        Path filePath = folderPath.resolve(trueLicenseFilaName);
+        Path filePath = folderPath.resolve(Constant.TURE_LICENSE_FILE_NAME);
         try (FileOutputStream fos = new FileOutputStream(filePath.toFile())) {
             fos.write(fileBytes);
         }
 
         // Install license
-        manager().install(file(licensePath));
+        manager().install(file(licensePath + "/" + Constant.TURE_LICENSE_FILE_NAME));
 
     }
 }
