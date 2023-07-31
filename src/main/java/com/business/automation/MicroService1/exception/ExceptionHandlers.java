@@ -120,7 +120,12 @@ public class ExceptionHandlers {
         return new ResponseEntity<>(new ExceptionBean(HttpStatus.BAD_REQUEST.value(), ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(global.namespace.truelicense.api.LicenseManagementException.class)
+    public ResponseEntity<?> handleInvalidRequestException(global.namespace.truelicense.api.LicenseManagementException ex) {
+        logger.error(ExceptionUtils.getStacktraceAsString(ex));
+        return new ResponseEntity<>(new ExceptionBean(400, ex.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ServiceExceptionHolder.InvalidRequestExceptioin.class)

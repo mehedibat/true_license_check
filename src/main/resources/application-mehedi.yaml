@@ -10,8 +10,13 @@ spring:
     virtual-host: /true-license
     requested-heartbeat: 30
 
-file:
-  base:
-    dir: /tmp/${spring.application.name}/resources/
 
 
+logging:
+  level:
+    com:
+      business: DEBUG
+    org:
+      springframework:
+        security: debug
+        web.server.adapter: debug

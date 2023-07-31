@@ -39,9 +39,10 @@ logging:
     org:
       springframework:
         security: INFO
+    org.springframework.web.server.adapter: debug
 
 license:
   server:
-    url: http://192.168.30.159:8899/download-license
+    url: http://192.168.30.159:8890/download-license
 
 
